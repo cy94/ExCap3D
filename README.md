@@ -18,7 +18,7 @@ Contents
 ---
 
 ## Dataset 
-1. Apply and download the ScanNet++ dataset from [here](https://kaldir.vc.in.tum.de/scannetpp/): 
+1. Apply for and download the ScanNet++ dataset from [here](https://kaldir.vc.in.tum.de/scannetpp/) 
 1. Download the captions for the train and val sets of the ExCap3D dataset [here](https://drive.google.com/drive/folders/1R0X5ZqY_jxh0vuPcEm3JNtkKwRIAgSxH?usp=sharing)
 
 ## Code
