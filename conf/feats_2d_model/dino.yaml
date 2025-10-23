@@ -1,0 +1,22 @@
+# @package _group_
+_target_: models.feats_2d.dino.Dino
+
+data_root: /cluster/eriador/cyeshwanth/scannetpp_download_v2_alpha/data
+raster_dir: /cluster/eriador/cyeshwanth/caption3d/raster_v2_alpha_sub10_down4x/
+nn_cache_dir: /cluster/eriador/cyeshwanth/caption3d/mask3d/nn_cacheconf/feats_2d_model/dino.yaml
+colmap_cache_dir: /cluster/eriador/cyeshwanth/caption3d/colmap_cache
+best_view_cache_dir: /cluster/eriador/cyeshwanth/caption3d/best_view_cache_10x/
+n_images: 8
+image_type: dslr
+subsample_factor: 10
+feat_dim: 384 # fixed dino feat dim
+# max_feats_per_point: 8
+downsample_factor:  4
+nn_thresh: 0.02 #1cm
+layer: 11
+model_type: dino_vits8
+stride:  4
+load_size: [224, 336]
+
+dbg_viz: false
+dbg_viz_dir: /cluster/eriador/cyeshwanth/caption3d/mask3d/dbg_viz_feats2d

@@ -1,0 +1,22 @@
+
+data_dir: /cluster/eriador/cyeshwanth/scannetpp_download/data
+input_pth_dir: /cluster/eriador/cyeshwanth/caption3d/pth_data/pth_data_100
+list_path: /cluster/eriador/cyeshwanth/caption3d/spp_meta/split_public/train_new_val.txt
+
+sample_factor: 0.1
+
+segfile_ext: .segs.json
+
+output_pth_dir: null
+# add new segment IDs from this dir
+segments_dir: null
+
+ignore_keys: ['vtx_num_labels', 'scene_id']
+
+scene_ids: null
+
+small_mesh_segments_dir: null
+use_small_mesh_segments: false
+
+n_jobs: 8
+sequential: false

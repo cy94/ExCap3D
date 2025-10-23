@@ -1,0 +1,4 @@
+# ninja log v5
+1	48698	1747841512221950806	/rhome/cyeshwanth/Mask3D/third_party/cuda_utils/interpolate/build/temp.linux-x86_64-cpython-37/cuda_utils.o	7da65e54ccaeea4e
+752	71938	1747920752247794256	/rhome/cyeshwanth/Mask3D/third_party/cuda_utils/interpolate/build/temp.linux-x86_64-cpython-37/cuda_utils_kernel.o	f3ed707a045d1396
+555	57633	1747922259085366927	/rhome/cyeshwanth/Mask3D/third_party/cuda_utils/interpolate/build/temp.linux-x86_64-cpython-37/cuda_utils_kernel.o	f3ed707a045d1396

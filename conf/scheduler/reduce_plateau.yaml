@@ -1,0 +1,12 @@
+# @package _group_
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  mode: min
+  factor: 0.1
+  patience: 10
+  threshold: 1e-4
+
+pytorch_lightning_params:
+  interval: epoch
+  monitor: val_loss

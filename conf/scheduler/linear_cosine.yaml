@@ -1,0 +1,13 @@
+# @package _group_
+
+scheduler:
+  _target_: pl_bolts.optimizers.lr_scheduler.LinearWarmupCosineAnnealingLR
+  warmup_epochs: 2000 #iterations, not epochs
+  max_epochs: null # gets set in the code to epochs x steps per epoch
+  warmup_start_lr: 0
+  eta_min: 1e-5
+  last_epoch: -1 # ${trainer.max_epochs}
+
+pytorch_lightning_params:
+  interval: step
+  

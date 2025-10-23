@@ -1,0 +1,171 @@
+general:
+  train_mode: true
+  task: "instance_segmentation"
+  seed: 42
+  checkpoint: null
+  backbone_checkpoint: null
+  freeze_backbone: false # train only last layer
+  linear_probing_backbone: false
+  train_on_segments: true
+  eval_on_segments: true
+  filter_out_instances: false
+  save_visualizations: false
+  visualization_point_size: 20
+  # save pyviz (default viz)
+  save_viz_pyviz: false
+  #### save viz on original meshes ####
+  save_viz_on_original_meshes: false
+  spp_data_dir: 
+
+  decoder_id: -1
+  # save all instance preds -> big files!
+  export: false
+  use_dbscan: false
+  ignore_class_threshold: 100
+  project_name: mask3d-caption
+  workspace: chandanyeshwanth
+  experiment_name: ''
+  experiment_name_suffix: ''
+  num_targets: 19
+  add_instance: true
+  dbscan_eps: 0.95
+  dbscan_min_points: 1
+  eval_each_scene: false
+
+  # set in the code
+  pretrained_params: 
+
+  ##### EXTRA OPTIMIZATION TRICKS #####
+  pretrained_params_lr: # during finetuning for captioning, allow finetuning the segmentor with a different and fixed LR
+  ##### CAPTIONING #####
+  cap_eval_iou_thresh: 0.5 #cider@0.5, etc
+  gen_captions: false
+  gen_part_captions: false
+  max_caption_length: 64
+  freeze_segmentor: false
+  # use gt semantic label as caption
+  semlabel_caption: false
+  exclude_scenes_without_caption: true
+  obj_caption_key: summarized_caption_16
+  part_caption_key: summarized_parts_caption_16
+  #### model ####
+  # project queries once 
+  project_queries_before_caption: false
+  project_queries_before_caption_dim: 128
+  project_queries_before_caption_layers: 2
+
+  ##### CHUNK SEGMENTS #####
+  # trilerp upsample predictions on chunks to voxels
+  chunk_seg_upsample_trilerp: false
+  chunk_seg_interp_type: 
+  seg_chunk_size: # need to provide this
+
+  upconv_seg_preds: false
+
+  ########### CAPTION MODEL TRICKS ###########
+  # use obj caption output to predict part captions
+  # can set only one of these to true
+  obj_output_to_part: false
+  project_hidden_states: false
+  # which hidden state to use, default is the last one
+  use_hidden_state_ndx: -1
+  part_output_to_obj: false
+
+  ######## 2D/Extra feats ########
+  #### use 2d feats that are loaded in the dataset (not on the fly) ####
+  use_2d_feats_instseg: false
+  project_2d_feats_instseg: false # specify a projection dim to use this
+  use_2d_feats_caption: false
+
+  ### 2d feats on the fly using a pretrained model ####
+  proj_feat_2d: false
+  use_2d_feats_only: false
+  normalize_feats_2d: false # normalize to same range as 3d features
+  ### dbg ###
+  dbg_save_samples: false
+  #################################
+
+  use_existing_expt: null
+  resume: false
+
+  warmup_steps: null
+
+  notes: null
+  wandb_group: null
+
+  # eval on the train set?
+  eval_on_train: 25
+  # dont eval on val set, only train set
+  dont_eval_on_val: false
+
+  export_threshold: 0.0001
+  reps_per_epoch: 1
+  on_crops: false
+  scores_threshold: 0.0
+  iou_threshold: 1.0
+  area: 5
+  eval_inner_core: -1 # disabled
+  # how many predicted masks to keep per scene (why is it called image?)
+  topk_per_image: 100
+  ignore_mask_idx: []
+  max_batch_size: 99999999
+
+  show_sample_stats: true
+
+  viz_attn_mask: false
+  viz_backbone_feats: false
+
+  # keep first_n or random samples
+  eval_on_train_selection: "first_n"
+  # caption only on confident instances
+  caption_confident_instances: null
+  caption_use_context_feats: null
+
+  segment_strategy: keep_all
+  segment_overlap_thresh: null
+  # keep_all: keep all segments, might not coincide with GT segments
+  # overlap_thresh: keep segments that are atleast 'thresh' frac inside an object
+  # majority_instance: assign segment to majority instance ID within the segment
+
+  # eval against the training target (not necessarily the same as the eval GT, due to segments being different)
+  eval_against_target: false
+
+  save_root: /cluster/eriador/cyeshwanth/caption3d/mask3d/checkpoints
+  save_dir: ${general.save_root}/${general.experiment_name}
+  # time/commit/md5(config)_uuid
+  # time/experiment_id/version_uuid
+  # experiment_id: 1 # commit[:8], or unique from logger
+  # version: 1 # md5[:8] of config
+
+  gpus: 1
+
+  no_output: false
+  no_log: false
+  no_ckpt: false
+
+defaults:
+  - data: indoor
+  - data/data_loaders: simple_loader
+  - data/datasets: scannet
+  - data/collation_functions: voxelize_collate
+  - model: mask3d
+  - caption_model: mask3d_captioner
+  - feats_2d_model: dino
+  - metrics: miou
+  - optimizer: adamw
+  - scheduler: onecyclelr
+  - trainer: trainer600
+  - matcher: hungarian_matcher
+  - loss: set_criterion
+  - logging: full
+  - callbacks: callbacks_instance_segmentation
+  - consistency: # new in our model, part-local caption consistency
+  
+
+hydra:
+  run:
+    dir: saved/hydra_logs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: saved/hydra_logs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    # dir: ${general.save_dir}
+    subdir: ${hydra.job.num}_${hydra.job.id}

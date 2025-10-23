@@ -1,0 +1,13 @@
+# @package _group_
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.CosineAnnealingWarmRestarts
+  # T_max: null # gets set in the code to epochs x steps per epoch
+  T_0: null
+  T_mult: 1
+  eta_min: 0
+  last_epoch: -1 # ${trainer.max_epochs}
+
+pytorch_lightning_params:
+  interval: step
+  

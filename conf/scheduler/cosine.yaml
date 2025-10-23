@@ -1,0 +1,11 @@
+# @package _group_
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+  T_max: null # gets set in the code to epochs x steps per epoch
+  eta_min: 1e-6 # the minimum LR
+  last_epoch: -1 # ${trainer.max_epochs}
+
+pytorch_lightning_params:
+  interval: step
+  

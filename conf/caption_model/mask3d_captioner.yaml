@@ -1,0 +1,77 @@
+# @package _group_
+_target_: models.mask3d_captioner.mask3d_captioner.Mask3D_Captioner
+
+output_hidden_states: false
+# during inference, this is different from the training hidden states, only requried
+# when sharing hidden states between obj and part caption models
+output_beam_hidden_states: false 
+
+# which hidden state to use from the other captioner for cross attn
+use_hidden_state_ndx: ${general.use_hidden_state_ndx}
+
+use_lora: false
+lora_rank: 8
+
+max_caption_length: ${general.max_caption_length}
+
+# gpt2 / distilgpt2 - specify to use pretrained/pretrained arch from scratch
+tokenizer_model_name: gpt2
+model_name: null
+
+# language model emb dim
+embedding_size: 128
+# query dim from seg model
+query_dim: 128
+# small model - 81.3M -> 95M with cross attn!
+n_layer: 1 #6
+n_head: 4 #12
+
+# GPT2: n_embd = 768, n_layer = 12, n_head = 12, 123M
+# DistilGPT2: n_embd = 768, n_head = 12, n_layer = 6, 81M
+
+num_beams: 5
+use_pretrained: false
+finetune_layers: null
+# layers in the gpt2/distilgpt2 models
+# wte: token embeddings
+# wpe: positional embeddings
+# h.0 - h.5, gpt2 = h.0 - h.11
+# ln_f
+# lm_head
+
+# number of semantic classes
+num_classes: ${general.num_targets}
+
+# ablations ,etc 
+# use gt semantic labels one hot encoded as "query features", dont use the actual query features
+gt_sem_onehot_as_query: false
+# use predicted semantics corresp to the queries as "query features", dont use the actual query features
+pred_sem_onehot_as_query: false
+# use the semantic one hot directly, dont project again
+# embedding should be set to same as query dim
+dont_project_queries: false
+
+##### extra features to use #####
+# use features from nearby objects
+use_context_feats: null
+context_nn: 6
+# dim of context features
+context_dim: 128
+context_use_pos_enc: false
+
+# use an object's predicted segment features as context while generating the caption for that object
+use_obj_segment_feats: false
+segment_aggr_type: mean
+use_obj_feat_in: ctx # ctx or input?
+obj_feat_type: avg
+obj_feat_dim: 96
+
+#### use other caption model's outputs as context ####
+# then train on only the objects that are common in both / use 0 zero features for objects that are not present!
+use_other_caption_feats: false
+
+class_weights_file: null
+
+######## debugging ##########
+viz_attn_mask: ${general.viz_attn_mask}
+

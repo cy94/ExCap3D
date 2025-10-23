@@ -1,0 +1,6 @@
+scene_list_file: /cluster/eriador/cyeshwanth/caption3d/spp_meta/split/train_new_val.txt
+# get scene id mapping and any other metadata from here
+# data_dir: /menegroth/scannetpp/data/
+sstk_dir: /menegroth/sstk-data
+csv_path:  /menegroth/scannetpp/scene_list.csv
+out_segments_dir: /cluster/eriador/cyeshwanth/caption3d/mask3d/segments_orig

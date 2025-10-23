@@ -1,0 +1,41 @@
+# @package _group_
+# part-local caption consistency in the model/losses
+classification: false
+
+loss_weights:
+  classification: 1.0
+  classification_gt: 1.0
+  similarity: 1.0
+
+classification_cfg:
+  use_gt_sem: false
+
+classification_model:
+  _target_: models.consistency.classification.CaptionClassifier
+  num_layers: 2
+  caption_emb_dim: ${caption_model.embedding_size}
+  emb_dim: 16
+  num_classes: ${data.num_labels}
+  num_heads: 2
+  dim_ff: 128
+  aggr: mean # max, cls, first
+
+similarity: false
+similarity_type: cosine #l1, l2, cosine, contrast_sem_neg
+similarity_cfg:
+  # samples from different semantic class are negatives, NCE loss
+  # use the similarity metric from similarity_type
+  contrastive: false  # nce_sem_neg
+  max_negatives: 50 
+  contrastive_temp: 0.1
+  margin_pos: 1.0
+  margin_neg: 0.5
+
+projection_model:
+  _target_: models.consistency.projection.CaptionProjector
+  num_layers: 2
+  caption_emb_dim: ${caption_model.embedding_size}
+  emb_dim: 16 
+  num_heads: 2
+  dim_ff: 128
+  aggr: max # mean, max, cls, first

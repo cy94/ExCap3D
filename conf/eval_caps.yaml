@@ -1,0 +1,24 @@
+# for per class plots
+save_plots: false
+class_list_file: null
+
+# split GT into tokens again and rejoin as done in pq3d
+# to get consistent GT
+tokenize_and_join_gt: false
+
+remove_sos_eos: false
+
+cap_pred_file: null
+eval_against_gt: false
+output_file: null
+# when reading assigned caps that already has GT, use a different GT from the GT dir
+use_different_gt_from_dir:
+
+# eval instance preds+VLM caps against the original GT caps
+gt_caption_key:
+# read the "predictions" which are in the same format as the GT
+pred_caps_dir_gt_format:
+# GT to evaluate against
+gt_caps_dir: 
+instance_preds_dir: 
+scene_list_file: 
