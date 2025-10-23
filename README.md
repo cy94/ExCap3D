@@ -21,8 +21,31 @@ Contents
 1. Apply for and download the ScanNet++ dataset from [here](https://kaldir.vc.in.tum.de/scannetpp/) 
 1. Download the captions for the train and val sets of the ExCap3D dataset [here](https://drive.google.com/drive/folders/1R0X5ZqY_jxh0vuPcEm3JNtkKwRIAgSxH?usp=sharing)
 
-## Code
-Coming soon!
+## Data preparation
+Data preparation and training code is based on [Mask3D](https://github.com/JonasSchult/Mask3D).
+
+
+Prepare semantics training data using our [ScanNet++ toolbox](https://github.com/scannetpp/scannetpp?tab=readme-ov-file#prepare-3d-semantics-training-data). Then sample the PTH files to get fewer points on the mesh surface, add new segment data, and convert to Mask3D format.
+```
+./sample_pth.sh
+```
+
+## Training
+First train the instance segmentation model on the ScanNet++ dataset. Configure all the paths in the training script, and run:
+```
+./scripts/train_spp.sh
+```
+
+Then train the captioning model on the ExCap3D dataset.
+```
+./scripts/train_spp_caption_joint.sh
+```
+
+## Evaluation
+Evaluate the trained model.
+```
+./scripts/eval_spp_caption_joint.sh
+```
 
 ## Citation
 If you find our code, dataset or paper useful, please consider citing
