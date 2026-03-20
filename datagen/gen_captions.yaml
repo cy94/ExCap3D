@@ -1,0 +1,96 @@
+############### input data #################
+# release data downloaded to disk
+data_root: null
+scene_list_file: null
+rasterout_dir: null
+visiblity_cache_dir: null
+filter_scenes: []
+exclude_scenes: []
+# image type - iphone or dslr
+image_type: dslr
+undistort_dslr: true
+
+############### generation #################
+check_visibility: true
+create_visiblity_cache_only: false
+# default gen obj caps, skip to generate only part caps
+gen_obj_caps: true
+# contains obj_to_part mapping for each scene: scene_id.json
+# part_masks: mask of part ids for each object: scene_id_part_ids.npy
+gen_part_caps: false
+object_parts_dir: 
+
+gen_local: true
+gen_global: false
+
+gen_multiple_per_view: true
+num_gen_per_view: 5
+# true: summarize within each view first, then over all view
+# false: summarize i-th caption from each view, get num_gen_per_view captions for each object
+summarize_per_view: false
+############### use instance predictions + VLM to gen caps #################
+use_instance_preds: false
+instance_preds_dir: 
+sem_classes_file: 
+############## use rasterized mesh instead of dslr images for captioning
+### rasterize the mesh into the same dslr view that would be have been using for captioning
+use_rasterized_mesh_image: false
+
+############### hyperparams #################
+# use topk views with visiblity of object vertices
+visibility_topk: 3
+# min size of the bbox of an object (each side must be greater than this in pixels)
+bbox_min_side_pix: 50
+# subsample images 
+subsample_factor: 10
+# atleast this fraction of the object's vertices should be visible in the image
+# set to 0 to ignore threshold
+obj_visible_thresh: 0.1
+# object should cover atleast this fraction of the image's pixels
+# set to 0 to ignore threshold
+obj_pixel_thresh: 0.00
+# object should be within this distance from the camera (meters) (set large number to include all objects)
+obj_dist_thresh: 99999
+# expand the bbox by this fraction in each direction
+bbox_expand_factor: 0.1
+# dont caption these objects
+ignore_object_labels: [beam, structure, STRUCTURE, object, OBJECT, objects, split, SPLIT, remove, REMOVE, wall, floor, roof, ceiling, switch, light switch, power socket, socket, doorframe, door frame, windowframe, window frame, ceiling lamp, ceiling light, light, lamp]
+
+# get the 3 nearest objects to each object
+nearest_objects: 5
+
+# 3d, 2d or 3d_2d
+# locations in the 3d world / image / both -> to be provided as prompt
+# None -> dont include location in prompt
+global_prompt_obj_locations: null
+# draw bbox of object when using global prompt + full image
+global_prompt_obj_bbox: true
+############### output #################
+save_dir_root: 
+save_dir: output
+use_existing_dir: null
+
+############### models #################
+caption_model: liuhaotian/llava-v1.6-mistral-7b
+summary_model: meta-llama/Llama-3.1-8B-Instruct
+
+############### logging #################
+wandb_group: null
+wandb_notes: null
+no_log: true
+
+############### general #################
+skip_existing: false
+limit_objects: null
+filter_objects: null
+limit_images: null
+
+############### summary #################
+# summarize all caps to this length finally (number of words)
+summarize_length: [16]
+
+############### dbg #################
+dbg:
+  dont_load_models: false
+  # viz obj ids in 2d for each image
+  viz_obj_ids: false
